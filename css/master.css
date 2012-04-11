@@ -1,0 +1,23 @@
+
+/*HEADER */
+header{width:1024px; margin:0 auto; letter-spacing: 2px;}
+/*SCREEN */
+div#SCREEN{width:1024px; margin:0 auto;}
+div#SCREEN .screen{float:left;}
+div#SCREEN .screen:first-child{border-left: 1px dashed #f3f270;}
+div#SCREEN .screen:last-child{border-right: 1px dashed #f3f270;}
+
+div#SCREEN .screen.main{width:600px; padding: 15px;}
+div#SCREEN .screen.main.modify{width:980px!important; padding: 15px;}
+
+div#SCREEN .screen.left{width:360px; padding: 15px;}
+/* UL LI */
+div#SCREEN .screen.left ul li:first-child{padding-top: 0px;}
+div#SCREEN .screen.left ul li{padding-top: 15px;}
+
+/*SVG ELEMENTS */
+tspan {color: rgba(243,243,202,1) !important;}
+
+
+
+

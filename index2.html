@@ -1,0 +1,557 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>SVG: ATTACK!!!</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/master.css">
+
+	<script src="js/libs/modernizr-2.5.3.min.js"></script>
+    <style type="text/css">
+        	.grapherTable { background: #000; border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; }
+        	.grapherTable tr:first-child td:first-child { -moz-border-radius-topleft: 15px; border-top-left-radius: 15px }
+        	.grapherTable tr:first-child td:last-child { -moz-border-radius-topright: 15px; border-top-right-radius: 15px; }
+        	.grapherTable tr:last-child td:first-child { -moz-border-radius-bottomleft: 15px; border-bottom-left-radius: 15px; }
+        	.grapherTable tr:last-child td:last-child { -moz-border-radius-bottomright: 15px; border-bottom-right-radius: 15px; }
+        	.grapherTable tr td { border-bottom: dotted 1px #434343;  }
+        	.grapherTable tr.last td {  }
+        	.grapherTable .leftGutter { vertical-align: bottom; background: #424242; font-size: 10px; text-align: center; color: #9c9c9c; border-bottom: dotted 1px #585858; }
+        	.grapherTable .bottomGutter { border-bottom: none; }
+        	.grapherCanvas { display: block; position: absolute;}
+        </style>
+    <style>
+        #viewport {-webkit-perspective: 1600px; -webkit-perspective-origin: 50% 450px; -webkit-transform: scale(0.75,0.75); -moz-perspective: 1000px; -moz-perspective-origin: 50% 200px; -moz-transform: scale(0.75,0.75); -o-perspective: 1000px; -o-perspective-origin: 50% 200px; -o-transform: scale(0.75,0.75); -ms-perspective-origin: 50% 200px; -ms-transform: scale(0.75,0.75);}
+
+        #viewport div {-webkit-backface-visibility: hidden;}
+
+        #cube {position: relative; margin: 200px auto; height: 600px; width: 600px; -webkit-transition: -webkit-transform 50ms linear; -webkit-transform-style: preserve-3d; -webkit-transform: rotateX(-10deg) rotateY(20deg); -moz-transition: -moz-transform 50ms linear; -moz-transform-style: preserve-3d; -moz-transform: rotateX(-10deg) rotateY(20deg); -o-transition: -o-transform 50ms linear; -o-transform-style: preserve-3d; -o-transform: rotateX(-10deg) rotateY(20deg); -ms-transition: -ms-transform 50ms linear; -ms-transform-style: preserve-3d; -ms-transform: rotateX(-10deg) rotateY(20deg);}
+
+        #cube > div {position: absolute; height: 600px; width: 600px; padding: 0; background: none; border: 2px solid #555; border-radius: 3px;}
+
+        #cube > div:first-child  {-webkit-transform: rotateX(90deg) translateZ(300px); -moz-transform: rotateX(90deg) translateZ(200px); -o-transform: rotateX(90deg) translateZ(200px); -ms-transform: rotateX(90deg) translateZ(200px);}
+
+        #cube > div:nth-child(2) {-webkit-transform: translateZ(300px); -moz-transform: translateZ(200px); -o-transform: translateZ(200px); -ms-transform: translateZ(200px);}
+
+        #cube > div:nth-child(3) {-webkit-transform: rotateY(90deg) translateZ(300px); -moz-transform: rotateY(90deg) translateZ(200px); -o-transform: rotateY(90deg) translateZ(200px); -ms-transform: rotateY(90deg) translateZ(200px);}
+
+        #cube > div:nth-child(4) {-webkit-transform: rotateY(180deg) translateZ(300px); -moz-transform: rotateY(180deg) translateZ(200px); -o-transform: rotateY(180deg) translateZ(200px); -ms-transform: rotateY(180deg) translateZ(200px);}
+
+        #cube > div:nth-child(5) {-webkit-transform: rotateY(-90deg) translateZ(300px); -moz-transform: rotateY(-90deg) translateZ(200px); -o-transform: rotateY(-90deg) translateZ(200px); -ms-transform: rotateY(-90deg) translateZ(200px);}
+
+        #cube > div:nth-child(6) {-webkit-transform: rotateX(-90deg) rotate(180deg) translateZ(300px); -moz-transform: rotateX(-90deg) rotate(180deg) translateZ(200px); -o-transform: rotateX(-90deg) rotate(180deg) translateZ(200px); -ms-transform: rotateX(-90deg) rotate(180deg) translateZ(200px);}
+    </style>
+</head>
+<body>
+<header>
+<p>Implementation of SVG : Scalable Vector Graphics</p>
+</header>
+<div role="main" id="SCREEN" >
+    <div role="center Left container" class='screen main modify'>
+    <h1>Cube: Use MOUSE or Cursors to Navigate the Cube!!</h1>
+        <div>
+            <div id="special">
+                <div id="wrapper">
+                    <article id="viewport">
+                        <section id="cube" style="-webkit-transition-duration: 500ms; -webkit-transform: rotateX(946deg) rotateY(510deg); ">
+                            <div id="p1"></div>
+                            <div id="p2"></div>
+                            <div id="p3"></div>
+                            <div id="p4"></div>
+                            <div id="p5"></div>
+                            <div id="p6"></div>
+                        </section>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+<footer>
+
+</footer>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.js"><\/script>')</script>
+<script src="js/libs/raphael.js"></script>
+<script src="js/libs/g.raphael.js"></script>
+<script src="js/libs/g.pie.js"></script>
+<script src="js/libs/line.js"></script>
+<script src="js/libs/g.dot.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/master.js"></script>
+<script src="js/script2.js"></script>
+<script type="text/javascript">
+    $(function(){
+
+    	var el = document.createElement('div'),
+    		transformProps = 'transform WebkitTransform MozTransform OTransform msTransform'.split(' '),
+    		transformProp = support(transformProps),
+    		transitionDuration = 'transitionDuration WebkitTransitionDuration MozTransitionDuration OTransitionDuration msTransitionDuration'.split(' '),
+    		transitionDurationProp = support(transitionDuration);
+
+    	function support(props) {
+    		for(var i = 0, l = props.length; i < l; i++) {
+    			if(typeof el.style[props[i]] !== "undefined") {
+    				return props[i];
+    			}
+    		}
+    	}
+
+    	var mouse = {
+    	    	start : {}
+    	    },
+    	    touch = document.ontouchmove !== undefined,
+    	    viewport = {
+    	    	x: -10,
+    			y: 20,
+    			el: $('#cube')[0],
+    			move: function(coords) {
+    				if(coords) {
+    					if(typeof coords.x === "number") this.x = coords.x;
+    					if(typeof coords.y === "number") this.y = coords.y;
+    				}
+
+    				this.el.style[transformProp] = "rotateX("+this.x+"deg) rotateY("+this.y+"deg)";
+    			},
+    			reset: function() {
+    				this.move({x: 0, y: 0});
+    			}
+    		};
+
+    	viewport.duration = function() {
+    		var d = touch ? 50 : 500;
+    		viewport.el.style[transitionDurationProp] = d + "ms";
+    		return d;
+    	}();
+
+    	$(document).keydown(function(evt) {
+    		switch(evt.keyCode)
+    		{
+    			case 37: // left
+    				viewport.move({y: viewport.y - 90});
+    				break;
+
+    			case 38: // up
+    				evt.preventDefault();
+    				viewport.move({x: viewport.x + 90});
+    				break;
+
+    			case 39: // right
+    				viewport.move({y: viewport.y + 90});
+    				break;
+
+    			case 40: // down
+    				evt.preventDefault();
+    				viewport.move({x: viewport.x - 90});
+    				break;
+
+    			case 27: //esc
+    				viewport.reset();
+    				break;
+
+    			default:
+    				break;
+    		}
+    	}).bind('mousedown touchstart', function(evt) {
+    		delete mouse.last;
+    		if($(evt.target).is('a, iframe')) {
+    			return true;
+    		}
+
+    		evt.originalEvent.touches ? evt = evt.originalEvent.touches[0] : null;
+    		mouse.start.x = evt.pageX;
+    		mouse.start.y = evt.pageY;
+    		$(document).bind('mousemove touchmove', function(event) {
+    			// Only perform rotation if one touch or mouse (e.g. still scale with pinch and zoom)
+    			if(!touch || !(event.originalEvent && event.originalEvent.touches.length > 1)) {
+    				event.preventDefault();
+    				// Get touch co-ords
+    				event.originalEvent.touches ? event = event.originalEvent.touches[0] : null;
+    				$('#viewport').trigger('move-viewport', {x: event.pageX, y: event.pageY});
+    			}
+    		});
+
+    		$(document).bind('mouseup touchend', function () {
+    			$(document).unbind('mousemove touchmove');
+    		});
+    	});
+
+    	$('#viewport').bind('move-viewport', function(evt, movedMouse) {
+
+    		// Reduce movement on touch screens
+    		var movementScaleFactor = touch ? 4 : 1;
+
+    		if (!mouse.last) {
+    	  		mouse.last = mouse.start;
+    		} else {
+    		  	if (forward(mouse.start.x, mouse.last.x) != forward(mouse.last.x, movedMouse.x)) {
+    		  		mouse.start.x = mouse.last.x;
+    		  	}
+    		  	if (forward(mouse.start.y, mouse.last.y) != forward(mouse.last.y, movedMouse.y)) {
+    		  		mouse.start.y = mouse.last.y;
+    		 	}
+    		}
+
+    		viewport.move({
+    			x: viewport.x + parseInt((mouse.start.y - movedMouse.y)/movementScaleFactor),
+    			y: viewport.y - parseInt((mouse.start.x - movedMouse.x)/movementScaleFactor)
+    		});
+
+    		mouse.last.x = movedMouse.x;
+    		mouse.last.y = movedMouse.y;
+
+    		function forward(v1, v2) {
+    			return v1 >= v2 ? true : false;
+    		}
+    	});
+    });
+</script>
+<script type="text/javascript">
+
+	window.Grapher = (function() {
+
+		function Grapher(div) {
+			var g = this;
+			g.container = $(div);
+			g.currentColumn = 0;
+			g.points = {};
+			g.lines = {};
+		}
+
+		Grapher.prototype = {
+
+			init: function(opts) {
+				var g = this;
+
+				g.opts = opts;
+
+				// create/cache dom
+				g.createGrid(opts);
+				g.canvas = new Raphael(document.getElementById('grapherCanvas'),
+					opts.width-opts.gutter, (opts.height+10)-opts.gutter*2);
+				g.table = g.container.find('.grapherTable');
+
+				// calculate y-values, dimensions
+				g.setyAxis(opts.y);
+				g.rowHeight = g.table.find('td').height()+1;
+				g.colWidth = g.table.find('td:gt(0)').width()+1;
+
+				g.canvas.setViewBox(0, 0, opts.width-opts.gutter, (opts.height+10)-opts.gutter*2);
+
+				g.panStart = 0;
+
+
+			},
+
+			// lots of magic numbers, this needs to be redone
+			pan: function(amt) {//console.log('How many times is this called',amt);
+				var g = this, animate, temppos = g.myline.attrs.path[0][1];
+
+                //console.log('Coordinates',g.myline,g.myline.attrs.path[0][1]);//.path[0][0][1]);
+                g.setBox = g.canvas.setViewBox(temppos-g.opts.width+amt, 0, g.opts.width, g.opts.height);
+                //g.setBox.attr(0, 0, g.opts.width, g.opts.height).animate({x:temppos-g.opts.width+amt},1000,'<>');
+
+
+				// var start = g.panStart;
+				// var max = (g.panStart+amt - g.panStart), i = (Math.abs(max)/amt)*3;
+
+				// function animatePan() {
+				// 	if (Math.abs(g.panStart-start) > Math.abs(max)) return;
+				// 	g.canvas.setViewBox(g.panStart+=i, 0, g.opts.width-g.opts.gutter, (g.opts.height+10)-g.opts.gutter*2);
+				// 	setTimeout(animatePan, 20);
+				// };
+
+				// animate = (function(amt) { return animatePan })(amt)();
+			},
+
+			addData: function(data, key, color) {
+				var g = this, pt;
+				pt = g.plotPoint(0, data, 2, color);
+				g.points[key] = [];
+				g.lines[key] = [];
+				g.points[key].push(pt);
+				g.points[key]['color'] = color;
+				g.points[key]['column'] = 0;
+			},
+
+			updateData: function(data, key) {
+				var g = this, line, previousPt, newPt;
+
+				var color = g.points[key].color;
+				var column = g.points[key].column;
+
+				previousPt = g.points[key][g.points[key].length-1];
+
+				newPt = g.plotPoint(column + g.colWidth, data, 2, color);
+				g.points[key].unshift();
+				g.points[key].push(newPt);
+				g.points[key].color = color;
+				g.points[key].column = column + g.colWidth;
+
+
+				if (column + g.colWidth> g.opts.width-g.colWidth) {
+					g.pan(g.colWidth);
+				}
+
+
+				line = g.connectPoints(previousPt, newPt, color);
+
+				g.lines[key].push(line);
+			},
+
+			plotPoint: function(x, y, size, color) {
+				var g = this, distance, convert, point;
+
+				// convert y-value back to canvas coordinate
+				distance = g.ymax-y;
+				convert = distance/g.incrementby;
+				y = (convert*g.rowHeight)+5;
+
+				// x-values: todo
+
+				point = g.canvas.circle(x, y, 4);
+				point.attr({'fill': color, 'stroke' : color,
+					'stroke-width': size});
+
+				return point;
+			},
+
+			connectPoints: function(p1, p2, color) {
+				var g = this;
+
+				g.myline = g.canvas.path('M ' + p1.attrs.cx + ' ' + p1.attrs.cy + ' l 0 0');
+                g.myline.attr({stroke: color, 'stroke-width': 3});
+                g.myline.animate({
+					path: 'M ' + p1.attrs.cx + ' ' + p1.attrs.cy + ' l ' + (p2.attrs.cx - p1.attrs.cx) + ' ' + (p2.attrs.cy - p1.attrs.cy) + ' z'
+				}, 800, '>');
+
+				return g.myline;
+			},
+
+			setyAxis: function(y) {
+				var g = this, yaxis = g.table.find('.leftGutter'),
+					ylen = yaxis.length, i = ylen-2,
+					last = y[0];
+
+				g.incrementby = (y[1]-y[0])/(ylen-2);
+				g.ymax = y[1]; g.ymin = y[0];
+				$(yaxis[i]).text(last.toFixed(2));
+
+				while((i--) > 0)
+					$(yaxis[i]).text((last+=g.incrementby).toFixed(2));
+			},
+
+			nextColumn: function() {
+				var g = this;
+				g.currentColumn++;
+				if (g.currentColumn*g.colWidth > g.opts.width-100) {
+					g.pan(350);
+				}
+				return Math.round(g.currentColumn*g.colWidth);
+			},
+
+			createGrid: function(opts) {
+				var g = this, width = opts.width,
+					height = opts.height, gutter = opts.gutter,
+					rows = opts.rows, cols = opts.cols;
+
+				// generate canvas
+				var canvas = $('<div id="grapherCanvas" class="grapherCanvas"></div>');
+				canvas.css({ 'width': ((width-gutter)+'px'),
+					'height': ((height-gutter*2)+'px'),
+					'margin-left': gutter + 'px',
+					'margin-top': gutter-5 + 'px'
+				});
+
+				// generate table markup
+				var table = $('<table width=' + width + ' height=' + height + ' border=0 ' +
+					'cellpadding=0 cellspacing=0 class="grapherTable" />');
+				for (var r=0; r<=rows; r++) {
+					var tr = $('<tr></tr>');
+					for (var c=0; c<=cols; c++)
+						tr.append('<td class="' + (c==0 ? 'leftGutter' : '') + '">&nbsp;</td>');
+					if (r===rows-1) tr.addClass('last');
+					if (r===rows) tr.find('td').addClass('bottomGutter');
+					table.append(tr);
+				}
+
+				// insert to dom, set css
+				g.container.append(canvas, table);
+				g.container.css({
+					'width': ((width)+'px'),
+					'height': ((height)+'px') });
+				g.container.find('.leftGutter').css('width', gutter+'px');
+				g.container.find('.bottomGutter').css('height', gutter+'px');
+
+			}
+
+
+		};
+
+		return Grapher;
+
+	})();
+
+	$(function() {
+        
+		var grapher = new Grapher('#p1');
+
+		grapher.init({
+			width: 600, height: 600,
+			rows: 10, cols: 4, gutter: 35,
+			y: [-10, 10],
+			x: 'timestamp'
+		});
+
+
+		window.g = grapher;
+
+
+        /*var grapher = new Grapher('#p6');
+
+        grapher.init({
+            width: 400, height: 400,
+            rows: 10, cols: 4, gutter: 35,
+            y: [-10, 10],
+            x: 'timestamp'
+        });
+        */
+
+        window.g = grapher;
+
+
+	 //    function getFeed() {
+	 //        var uniqueCB;
+	 //        uniqueCB = 'cb' + Math.round(new Date().getTime());
+	 //        $.ajax({
+	 //            url: 'http://10.232.62.39/graph/feed.php?s=MMM,AA',
+	 //            dataType: 'jsonp',
+	 //            jsonpCallback: uniqueCB,
+	 //            cache: false,
+	 //            success: function(data) {
+	 //            	var stocks, len;
+	 //            	if (!$.isArray(data.quote)) {
+	 //            		stocks = [];
+	 //            		stocks.push(data.quote);
+	 //            	} else stocks = data.quote;
+	 //            	len = stocks.length;
+	 //            	for (var i=0; i<len; i++) {
+	 //            		grapher.addData(-.8,stocks[i].ticker,('#'+Math.floor(Math.random()*16777215).toString(16)));
+	 //            	}
+	 //            }
+	 //        });
+	 //    };
+
+	 //    function updateFeed() {
+	 //        var uniqueCB;
+	 //        uniqueCB = 'cb' + Math.round(new Date().getTime());
+	 //        $.ajax({
+	 //            url: 'http://10.232.62.39/graph/feed.php?s=MMM,AA',
+	 //            dataType: 'jsonp',
+	 //            jsonpCallback: uniqueCB,
+	 //            cache: false,
+	 //            success: function(data) {
+	 //            	var stocks, len;
+	 //            	if (!$.isArray(data.quote)) {
+	 //            		stocks = [];
+	 //            		stocks.push(data.quote);
+	 //            	} else stocks = data.quote;
+	 //            	len = stocks.length;
+	 //            	for (var i=0; i<len; i++) {
+	 //            		grapher.updateData(stocks[i].netChange,stocks[i].ticker);
+	 //            	}
+	 //            }
+	 //        });
+	 //    };
+
+		// getFeed();
+
+		// setInterval(updateFeed, 3000);
+
+
+
+		grapher.addData((Math.random() * (10 - (-10)) + (-10)).toFixed(2),'1','#319cca');
+		grapher.addData((Math.random() * (10 - (-10)) + (-10)).toFixed(2),'2','#84ca31');
+		grapher.addData((Math.random() * (10 - (-10)) + (-10)).toFixed(2),'3','#ca3160');
+		grapher.addData((Math.random() * (10 - (-10)) + (-10)).toFixed(2),'4','#eccc4e');
+
+		setInterval(function() {
+	    		grapher.updateData(parseFloat(Math.random() * (10 - (-10)) + (-10)).toFixed(2), '1');
+	    		grapher.updateData(parseFloat(Math.random() * (10 - (-10)) + (-10)).toFixed(2), '2');
+	    		grapher.updateData(parseFloat(Math.random() * (10 - (-10)) + (-10)).toFixed(2), '3');
+	    		grapher.updateData(parseFloat(Math.random() * (10 - (-10)) + (-10)).toFixed(2), '4');
+		}, 2100);
+
+	});
+
+</script>
+<script type="text/javascript">
+    Raphael.fn.pieChart = function (cx, cy, r, values, labels, stroke) {
+        var paper = this,
+            rad = Math.PI / 180,
+            chart = this.set();
+        function sector(cx, cy, r, startAngle, endAngle, params) {
+            var x1 = cx + r * Math.cos(-startAngle * rad),
+                x2 = cx + r * Math.cos(-endAngle * rad),
+                y1 = cy + r * Math.sin(-startAngle * rad),
+                y2 = cy + r * Math.sin(-endAngle * rad);
+            return paper.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]).attr(params);
+        }
+        var angle = 0,
+            total = 0,
+            start = 0,
+            process = function (j) {
+                var value = values[j],
+                    angleplus = 360 * value / total,
+                    popangle = angle + (angleplus / 2),
+                    color = Raphael.hsb(start, .75, 1),
+                    ms = 500,
+                    delta = 30,
+                    bcolor = Raphael.hsb(start, 1, 1),
+                    p = sector(cx, cy, r, angle, angle + angleplus, {fill: "90-" + bcolor + "-" + color, stroke: stroke, "stroke-width": 3}),
+                    txt = paper.text(cx + (r + delta + 45) * Math.cos(-popangle * rad), cy + (r + delta + 25) * Math.sin(-popangle * rad), labels[j]).attr({fill: bcolor, stroke: "none", opacity: 0, "font-size": 20});
+                p.mouseover(function () {
+                    p.stop().animate({transform: "s1.1 1.1 " + cx + " " + cy}, ms, "elastic");
+                    txt.stop().animate({opacity: 1}, ms, "elastic");
+                }).mouseout(function () {
+                    p.stop().animate({transform: ""}, ms, "elastic");
+                    txt.stop().animate({opacity: 0}, ms);
+                });
+                angle += angleplus;
+                chart.push(p);
+                chart.push(txt);
+                start += .1;
+            };
+        for (var i = 0, ii = values.length; i < ii; i++) {
+            total += values[i];
+        }
+        for (i = 0; i < ii; i++) {
+            process(i);
+        }
+        return chart;
+    };
+
+    $(function () {
+        var values = [40,26,5,5,4,4,3,2,2,2],
+            labels = ['Ruby','JavaScript','Shell','Python','PHP','C','Perl','C++','Java','Objective-C'];
+       // Raphael("p1", 400, 400).pieChart(200, 200, 150, values, labels, "#fff");
+       // Raphael("p2", 400, 400).pieChart(200, 200, 150, values, labels, "#fff");
+       // Raphael("p3", 400, 400).pieChart(200, 200, 150, values, labels, "#fff");
+       // Raphael("p4", 400, 400).pieChart(200, 200, 150, values, labels, "#fff");
+      //  Raphael("p5", 400, 400).pieChart(200, 200, 150, values, labels, "#fff");
+        Raphael("p6", 600, 600).pieChart(300, 300, 200, values, labels, "#fff");
+    });
+
+</script>
+</body>
+</html>
